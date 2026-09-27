@@ -1,0 +1,41 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# ---- 虚拟环境 ----
+.venv/
+venv/
+
+# ---- 本地配置与凭据 ----
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.pfx
+*.key
+
+# ---- 工具缓存 ----
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---- IDE ----
+.idea/
+*.swp
+*.swo
+
+# ---- 操作系统 ----
+Thumbs.db
+Desktop.ini
+
+# ---- 运行产物与本地记录 ----
+*.log
+data/
+evals/results/
+Trouble history/

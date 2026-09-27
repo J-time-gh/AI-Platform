@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "E-ai-platform"
+version = "0.1.0"
+description = "企业级大模型 AI 应用平台：RAG + Agent"
+readme = "README.md"
+requires-python = ">=3.11"
+#依赖
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.5",
+    "httpx>=0.27",
+    "python-multipart>=0.0.9",
+    "sqlalchemy>=2.0",
+    "alembic>=1.13",
+    "psycopg[binary]>=3.2",
+    "redis>=5.0",
+    "rq>=2.0",
+    "pgvector>=0.3",
+    "pymupdf>=1.24",
+    "python-docx>=1.1",
+    "openpyxl>=3.1",
+    "jieba>=0.42",
+    "rank_bm25>=0.2",
+    "langgraph>=0.2",
+    "pyjwt[crypto]>=2.8",
+    "pwdlib[argon2]>=0.2",
+    "email-validator>=2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.7",
+]
+# 可选模型依赖：pip install -e ".[ml]"
+# 本地开发与模型功能：pip install -e ".[dev,ml]"
+ml = [
+    "sentence-transformers>=3.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["alembic/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]

@@ -1,0 +1,27 @@
+# ── 可答：《实践论》（28 块）────────────────────────
+{"question": "认识是怎样从感性阶段发展到理性阶段的？", "must_hit": ["感性认识", "理性认识"]}
+{"question": "认识过程中的飞跃指的是什么？", "must_hit": ["飞跃"]}
+{"question": "检验真理的标准是什么？", "must_hit": ["真理的标准"]}
+{"question": "《实践论》批判了哪两种错误倾向？", "must_hit": ["唯理论", "经验论"]}
+{"question": "科学实验在认识过程中起什么作用？", "must_hit": ["科学实验"]}
+{"question": "真理是绝对的还是相对的？", "must_hit": ["绝对真理"]}
+
+# ── 可答：习近平《理论创新》（8 块）────────────────
+{"question": "什么是实践基础上的理论创新？", "must_hit": ["理论创新"]}
+{"question": "理论创新和实践创新是什么关系？", "must_hit": ["实践创新"]}
+{"question": "马克思主义为什么要不断时代化？", "must_hit": ["时代化"]}
+
+# ── 可答：《资本论·第二版跋》（17 块）──────────────
+{"question": "马克思的研究方法是什么？", "must_hit": ["辩证法"]}
+{"question": "黑格尔的辩证法与马克思是什么关系？", "must_hit": ["黑格尔"]}
+{"question": "《资本论》第二版主要修改了哪些内容？", "must_hit": ["第二版"]}
+{"question": "德国政治经济学当时处于什么状况？", "must_hit": ["政治经济学"]}
+{"question": "什么是商品的拜物教性质？", "must_hit": ["拜物教"]}
+{"question": "价值形式这一章为什么要改写？", "must_hit": ["价值形式"]}
+
+# ── 不可答（库里没有，测拒答）──────────────────────
+{"question": "今天北京的天气怎么样？", "must_hit": [], "answerable": false}
+{"question": "公司的年假有多少天？", "must_hit": [], "answerable": false}
+{"question": "怎么用 Python 读取 CSV 文件？", "must_hit": [], "answerable": false}
+{"question": "明天的股票会涨吗？", "must_hit": [], "answerable": false}
+{"question": "如何申请护照？", "must_hit": [], "answerable": false}

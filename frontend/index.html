@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d1b2a" />
+    <title>EAI Knowledge Hub</title>
+    <link rel="stylesheet" href="/ui/styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <main class="page-shell">
+      <section id="auth-view" class="auth-view">
+        <div class="auth-intro">
+          <div class="brand-mark">E</div>
+          <p class="eyebrow">ENTERPRISE AI PLATFORM</p>
+          <h1>把企业知识，<span>变成可检索的答案。</span></h1>
+          <p class="intro-copy">
+            上传资料，等待异步入库完成，然后用语义检索快速找到真正相关的内容。
+          </p>
+          <div class="feature-list">
+            <div class="feature-item"><span>01</span><strong>账号登录</strong><em>JWT 认证与用户隔离</em></div>
+            <div class="feature-item"><span>02</span><strong>异步入库</strong><em>上传与解析解耦，状态透明</em></div>
+            <div class="feature-item"><span>03</span><strong>混合检索</strong><em>向量、BM25 与重排可选</em></div>
+          </div>
+        </div>
+
+        <div class="auth-card panel">
+          <div class="auth-tabs" role="tablist" aria-label="认证操作">
+            <button class="auth-tab active" data-auth-tab="login" role="tab" aria-selected="true">登录</button>
+            <button class="auth-tab" data-auth-tab="register" role="tab" aria-selected="false">注册</button>
+          </div>
+          <div class="auth-heading">
+            <p class="eyebrow">WELCOME BACK</p>
+            <h2 id="auth-title">登录工作台</h2>
+            <p id="auth-subtitle">使用已注册账号登录。</p>
+          </div>
+
+          <form id="auth-form" class="stack-form">
+            <label class="field-label" for="auth-email">邮箱</label>
+            <input id="auth-email" class="text-input" type="email" autocomplete="email" placeholder="name@company.com" required />
+            <label class="field-label" for="auth-password">密码</label>
+            <input id="auth-password" class="text-input" type="password" autocomplete="current-password" placeholder="至少 12 个字符" minlength="12" required />
+            <button id="auth-submit" class="primary-button" type="submit">登录</button>
+          </form>
+          <p id="auth-error" class="form-message error-message" role="alert"></p>
+        </div>
+      </section>
+
+      <section id="app-view" class="app-view hidden">
+        <header class="topbar">
+          <a class="brand" href="/ui/" aria-label="EAI Knowledge Hub 首页">
+            <span class="brand-mark small">E</span>
+            <span>EAI <strong>Knowledge Hub</strong></span>
+          </a>
+          <div class="topbar-actions">
+            <span id="user-email" class="user-email"></span>
+            <button id="logout-button" class="ghost-button" type="button">退出登录</button>
+          </div>
+        </header>
+
+        <div class="app-heading">
+          <div>
+            <p class="eyebrow">KNOWLEDGE WORKSPACE</p>
+            <h1>你的知识工作台</h1>
+            <p>上传资料、追踪入库状态，再从准备好的知识库中检索答案。</p>
+          </div>
+          <div class="heading-status"><span class="status-dot"></span>API 已连接</div>
+        </div>
+
+        <div class="workspace-grid">
+          <section class="panel upload-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">01 / INGEST</p>
+                <h2>上传资料</h2>
+              </div>
+              <span class="panel-icon">↑</span>
+            </div>
+            <form id="upload-form" class="upload-form">
+              <label id="drop-zone" class="drop-zone" for="document-file">
+                <span class="upload-glyph">＋</span>
+                <strong id="file-name">选择一个文件</strong>
+                <span>支持 PDF、Word、Excel、Markdown、TXT，最大 20MB</span>
+                <input id="document-file" type="file" accept=".pdf,.docx,.doc,.txt,.md,.xlsx" required />
+              </label>
+              <button id="upload-submit" class="primary-button" type="submit">开始异步入库</button>
+            </form>
+            <p id="upload-message" class="form-message" role="status"></p>
+            <div class="process-note">
+              <span class="note-line"></span>
+              <p>上传只负责接收任务。解析、分块和向量化由后台 Worker 完成。</p>
+            </div>
+          </section>
+
+          <section class="panel documents-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">02 / DOCUMENTS</p>
+                <h2>文档状态</h2>
+              </div>
+              <button id="refresh-documents" class="icon-button" type="button" title="刷新文档">↻</button>
+            </div>
+            <!-- 每个文档卡片由前端 app.js 附上独立流程图；Worker 分支表示后台独立进程，节点由 API 状态驱动。 -->
+            <div id="documents-list" class="documents-list">
+              <div class="loading-state">正在加载文档…</div>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel chat-panel">
+          <div class="panel-heading chat-heading">
+            <div>
+              <p class="eyebrow">03 / KNOWLEDGE CHAT</p>
+              <h2>知识问答</h2>
+            </div>
+            <span id="chat-mode-description" class="search-hint">普通对话直接根据问题和历史回答，不检索知识库。</span>
+          </div>
+
+          <div class="chat-session-bar">
+            <button id="new-chat-button" class="ghost-button" type="button">＋ 新对话</button>
+            <div id="chat-sessions-list" class="chat-sessions-list" aria-label="历史对话">
+              <span class="session-empty">正在加载对话…</span>
+            </div>
+          </div>
+
+          <div class="chat-controls">
+            <label class="select-wrap" for="chat-skill">
+              <span>对话模式</span>
+              <select id="chat-skill" aria-describedby="chat-mode-description">
+                <option value="">普通对话</option>
+                <option value="knowledge_base_qa">RAG 检索</option>
+              </select>
+            </label>
+            <label id="chat-retrieval-mode-control" class="select-wrap hidden" for="chat-mode">
+              <span>检索模式</span>
+              <select id="chat-mode">
+                <option value="vector">向量</option>
+                <option value="bm25">BM25</option>
+                <option value="hybrid">混合</option>
+                <option value="hybrid_rerank" selected>混合 + 重排</option>
+              </select>
+            </label>
+            <label id="chat-top-k-control" class="select-wrap compact hidden" for="chat-top-k">
+              <span>引用数量</span>
+              <select id="chat-top-k">
+                <option value="3">3</option>
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+              </select>
+            </label>
+            <label class="toggle-label" for="evidence-highlight-toggle">
+              <input id="evidence-highlight-toggle" type="checkbox" checked />
+              <span class="toggle-track" aria-hidden="true"><span></span></span>
+              展开依据时高亮命中词
+            </label>
+          </div>
+
+          <div id="chat-messages" class="chat-messages" aria-live="polite">
+            <div class="empty-chat">
+              <span>✦</span>
+              <p>直接向 AI 助手提问，可进行通用对话。</p>
+            </div>
+          </div>
+
+          <form id="chat-form" class="chat-composer">
+            <label class="chat-input-wrap" for="chat-input">
+              <textarea id="chat-input" rows="2" maxlength="2000" placeholder="向 AI 助手提问…" required></textarea>
+              <span>Enter 发送 · Shift + Enter 换行</span>
+            </label>
+            <button id="chat-submit" class="primary-button" type="submit">发送</button>
+          </form>
+          <p id="chat-message" class="form-message" role="status"></p>
+        </section>
+      </section>
+    </main>
+
+    <div id="toast-region" class="toast-region" aria-live="polite"></div>
+    <script src="/ui/app.js" defer></script>
+  </body>
+</html>

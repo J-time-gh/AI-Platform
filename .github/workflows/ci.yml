@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql+psycopg://app:ci@127.0.0.1:5432/e_ai_database
+      TEST_DATABASE_URL: postgresql+psycopg://app:ci@127.0.0.1:5432/e_ai_database_test
+      REDIS_URL: redis://127.0.0.1:6379/0
+      JWT_SECRET_KEY: ci-only-not-a-real-secret
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: e_ai_database
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U app -d e_ai_database"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Create test database
+        env:
+          PGPASSWORD: ci
+        run: psql -h 127.0.0.1 -U app -d e_ai_database -c "CREATE DATABASE e_ai_database_test;"
+
+      - name: Lint with ruff
+        run: ruff check .
+
+      - name: Check formatting with ruff
+        run: ruff format --check .
+
+      - name: Run tests with pytest
+        run: pytest
